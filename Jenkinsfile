@@ -4,7 +4,7 @@ node {
     def NEXUS_PROTOCOL = "http"
     def NEXUS_URL = "54.215.73.110:8081"
     def NEXUS_REPOSITORY = "test"
-    def NEXUS_CREDENTIALS_ID = "nexus"  // 🔹 Add this in Jenkins > Manage Credentials
+    def NEXUS_CREDENTIALS_ID = "nexus"  // matches Jenkins credentials ID
 
     stage('Checkout Code') {
         echo "🔹 Cloning repository..."
@@ -36,7 +36,6 @@ node {
         def artifactPath = filesByGlob[0].path
         echo "✅ Found artifact: ${filesByGlob[0].name} at ${artifactPath}"
 
-        // Upload to Nexus
         nexusArtifactUploader(
             nexusVersion: NEXUS_VERSION,
             protocol: NEXUS_PROTOCOL,
@@ -44,7 +43,7 @@ node {
             groupId: pom.groupId,
             version: pom.version,
             repository: NEXUS_REPOSITORY,
-            credentialsId: NEXUS_CREDENTIALS_ID,  // ✅ Required for 401 fix
+            credentialsId: NEXUS_CREDENTIALS_ID,  // 🔑 Required for authentication
             artifacts: [
                 [
                     artifactId: pom.artifactId,
