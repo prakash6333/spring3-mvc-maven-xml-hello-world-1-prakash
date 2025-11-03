@@ -7,7 +7,7 @@ node {
 
     stage('Checkout Code') {
         echo "Cloning repository..."
-        git branch: 'master', url: 'https://github.com/prakash6333/spring3-mvc-maven-xml-hello-world-1.git'
+        git branch: 'main', url: 'https://github.com/prakash6333/spring3-mvc-maven-xml-hello-world-1-prakash.git'
     }
 
     stage('Build with Maven') {
