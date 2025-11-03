@@ -1,5 +1,4 @@
 node {
-    // Define environment variables
     def NEXUS_VERSION = "nexus3"
     def NEXUS_PROTOCOL = "http"
     def NEXUS_URL = "54.215.73.110:8081"
@@ -41,9 +40,9 @@ node {
             protocol: NEXUS_PROTOCOL,
             nexusUrl: NEXUS_URL,
             groupId: pom.groupId,
-            version: pom.version,
+            version: "${BUILD_NUMBER}",   // version increments per build
             repository: NEXUS_REPOSITORY,
-            credentialsId: NEXUS_CREDENTIALS_ID,  // 🔑 Required for authentication
+            credentialsId: NEXUS_CREDENTIALS_ID,   // 👈 Added authentication
             artifacts: [
                 [
                     artifactId: pom.artifactId,
@@ -64,6 +63,6 @@ node {
     stage('Post Build Actions') {
         echo "🗂 Archiving build artifacts..."
         archiveArtifacts artifacts: 'target/*.war', fingerprint: true
-        echo "✅ Build and deployment successful! Artifact uploaded to Nexus: ${NEXUS_URL}/repository/${NEXUS_REPOSITORY}/"
+        echo "✅ Build and deployment successful! Artifact uploaded to Nexus at ${NEXUS_URL}/repository/${NEXUS_REPOSITORY}/"
     }
 }
